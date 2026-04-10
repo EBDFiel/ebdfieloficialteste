@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="hide-scroll">
+<head>
+    <meta charset="UTF-8">
+    <title>EBD Fiel - Visualização Responsiva</title>
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no,width=device-width">
+    <link rel="shortcut icon" href="https://csite.nicepage.com/favicon.ico" type="image/x-icon">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Open Sans', sans-serif;
+            background: #f1f5f9;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .page-preview {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: #e9eef3;
+        }
+
+        .page-preview-header {
+            background: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+            height: 70px;
+            position: relative;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            flex-shrink: 0;
+        }
+
+        .page-preview-header > a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .page-preview-header > a:hover {
+            background: #eef2ff;
+            transform: translateY(-1px);
+        }
+
+        .page-preview-header > a.active {
+            background: #dbeafe;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .page-preview-header img {
+            width: 28px;
+            height: 28px;
+            display: block;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: 600;
+            color: #64748b;
+            transition: color 0.2s;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #ef4444;
+        }
+
+        .page-preview-body {
+            flex: 1;
+            overflow: hidden;
+            text-align: center;
+            background: #e9eef3;
+            padding: 12px;
+        }
+
+        .page-preview-body iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .logo-floating {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.9);
+            backdrop-filter: blur(4px);
+            padding: 8px 14px;
+            border-radius: 40px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+        }
+
+        .logo-floating:hover {
+            background: white;
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 640px) {
+            .page-preview-header {
+                gap: 6px;
+                height: 60px;
+            }
+            .page-preview-header img {
+                width: 22px;
+                height: 22px;
+            }
+            .close {
+                right: 12px;
+                font-size: 20px;
+            }
+            .logo-floating {
+                bottom: 12px;
+                left: 12px;
+                font-size: 11px;
+                padding: 6px 12px;
+            }
+        }
+
+        .hide-scroll {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-preview">
+    <div class="page-preview-header">
+        <a href="#" id="previewDesktopBtn" data-preview-size="100%" title="Desktop">
+            <img alt="Desktop" src="//csite.nicepage.com/Images/Site/responsive-desktop.png">
+        </a>
+        <a href="#" id="previewLaptopBtn" data-preview-size="1040px" title="Laptop">
+            <img alt="Laptop" src="//csite.nicepage.com/Images/Site/responsive-laptop.png">
+        </a>
+        <a href="#" id="previewTabletBtn" data-preview-size="820px" title="Tablet">
+            <img alt="Tablet" src="//csite.nicepage.com/Images/Site/responsive-tablet.png">
+        </a>
+        <a href="#" id="previewPhoneHorizontalBtn" data-preview-size="640px" title="Phone Horizontal">
+            <img alt="Phone Horizontal" src="//csite.nicepage.com/Images/Site/responsive-phone-horizontal.png">
+        </a>
+        <a href="#" id="previewPhoneBtn" data-preview-size="440px" title="Phone Vertical">
+            <img alt="Phone" src="//csite.nicepage.com/Images/Site/responsive-phone.png">
+        </a>
+        <a class="close" id="closePreviewBtn" title="Fechar">✕</a>
+    </div>
+    <div class="page-preview-body">
+        <iframe id="livePreviewFrame" src="https://ebdfiel.com.br/" width="100%" height="100%" style="width:100%;" title="EBD Fiel"></iframe>
+    </div>
+</div>
+
+<a class="logo-floating" href="https://ebdfiel.com.br/" target="_blank">
+    <span>📖</span> EBD Fiel
+</a>
+
+<script>
+    (function() {
+        // ==================== LÓGICA DE PREVIEW RESPONSIVO ====================
+        function setActiveResponsiveButton(btn) {
+            document.querySelectorAll('.page-preview-header > a').forEach(el => {
+                if (el.classList) el.classList.remove('active');
+            });
+            if (btn && btn.classList) btn.classList.add('active');
+        }
+
+        function getDataPreviewSizeAttr(el) {
+            return el.getAttribute('data-preview-size');
+        }
+
+        function getScrollbarWidth() {
+            let div = document.createElement('div');
+            div.style.width = '100px';
+            div.style.height = '100px';
+            div.style.overflow = 'scroll';
+            div.style.visibility = 'hidden';
+            div.style.position = 'absolute';
+            div.style.top = '-9999px';
+            document.body.appendChild(div);
+            let width = div.offsetWidth - div.clientWidth;
+            document.body.removeChild(div);
+            return width;
+        }
+
+        function setLivePreviewFrameSize(srcEl) {
+            let sizeValue = getDataPreviewSizeAttr(srcEl);
+            if (!sizeValue) return;
+            let ifr = document.getElementById('livePreviewFrame');
+            if (!ifr) return;
+            if (sizeValue.includes('%')) {
+                ifr.style.width = sizeValue;
+            } else {
+                let widthPx = parseInt(sizeValue, 10);
+                if (!isNaN(widthPx)) {
+                    let scrollbar = getScrollbarWidth();
+                    ifr.style.width = (widthPx + scrollbar) + 'px';
+                }
+            }
+        }
+
+        // Botões de preview
+        const desktopBtn = document.getElementById('previewDesktopBtn');
+        const laptopBtn = document.getElementById('previewLaptopBtn');
+        const tabletBtn = document.getElementById('previewTabletBtn');
+        const phoneHorBtn = document.getElementById('previewPhoneHorizontalBtn');
+        const phoneBtn = document.getElementById('previewPhoneBtn');
+        const closeBtn = document.getElementById('closePreviewBtn');
+
+        function attachHandler(btn) {
+            if (!btn) return;
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                setLivePreviewFrameSize(this);
+                setActiveResponsiveButton(this);
+            });
+        }
+
+        attachHandler(desktopBtn);
+        attachHandler(laptopBtn);
+        attachHandler(tabletBtn);
+        attachHandler(phoneHorBtn);
+        attachHandler(phoneBtn);
+
+        // Ativar desktop por padrão
+        if (desktopBtn) {
+            setTimeout(function() {
+                desktopBtn.click();
+            }, 100);
+        }
+
+        // Fechar preview - volta para a página anterior
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Deseja sair da visualização?')) {
+                    window.history.back();
+                }
+            });
+        }
+
+        // Ajustar iframe quando a janela for redimensionada
+        let resizeTimeout;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(function() {
+                const activeBtn = document.querySelector('.page-preview-header > a.active');
+                if (activeBtn) {
+                    setLivePreviewFrameSize(activeBtn);
+                }
+            }, 150);
+        });
+    })();
+</script>
+
+</body>
+</html>
