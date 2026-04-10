@@ -1,0 +1,1176 @@
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lição - EBD Fiel</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <style>
+    :root{
+      --bg:#eef2f7;
+      --panel:#ffffff;
+      --text:#162331;
+      --muted:#66788a;
+      --stroke:rgba(15,23,42,.08);
+      --primary:#f7b24d;
+      --primary-2:#ff9800;
+      --secondary:#1688dc;
+      --dark:#07111f;
+      --shadow:0 18px 44px rgba(15,23,42,.10);
+      --radius:24px;
+      --audio-player-height:108px;
+      --content-width:980px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+
+    body{
+      font-family:'Inter',sans-serif;
+      margin:0;
+      background:
+        radial-gradient(circle at top left, rgba(22,136,220,.07), transparent 24%),
+        radial-gradient(circle at top right, rgba(247,178,77,.10), transparent 22%),
+        linear-gradient(180deg,#f7f9fc 0%, #eef2f7 100%);
+      color:var(--text);
+      padding-bottom:calc(var(--audio-player-height) + 30px);
+    }
+
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    button,input[type="range"]{font-family:inherit}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:1100;
+      background:rgba(7,17,31,.92);
+      backdrop-filter:blur(14px);
+      color:#fff;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    .topbar-inner{
+      max-width:var(--content-width);
+      margin:0 auto;
+      padding:12px 16px;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      justify-content:space-between;
+    }
+
+    .topbar-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+      flex:1;
+    }
+
+    .back-btn,
+    .icon-btn,
+    .share-btn,
+    .pdf-btn,
+    .action-btn{
+      border:none;
+      cursor:pointer;
+      transition:.25s ease;
+    }
+
+    .back-btn{
+      background:linear-gradient(135deg,var(--primary),var(--primary-2));
+      color:#1b2430;
+      border-radius:999px;
+      padding:10px 16px;
+      font-weight:800;
+      box-shadow:0 10px 24px rgba(255,152,0,.28);
+      white-space:nowrap;
+    }
+
+    .back-btn:hover,.share-btn:hover,.pdf-btn:hover,.action-btn:hover,.icon-btn:hover{
+      transform:translateY(-2px);
+    }
+
+    .title-wrap{min-width:0}
+
+    .eyebrow{
+      font-size:.74rem;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:#b9c7d4;
+      font-weight:800;
+      margin-bottom:2px;
+    }
+
+    #tituloTopbar{
+      font-weight:800;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      font-size:1rem;
+      max-width:68vw;
+    }
+
+    .topbar-actions{
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    .icon-btn{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      background:rgba(255,255,255,.08);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .page{
+      max-width:var(--content-width);
+      margin:18px auto 0;
+      padding:0 16px 24px;
+    }
+
+    .hero-card,
+    .card,
+    .audio-card,
+    .actions-footer{
+      background:var(--panel);
+      border:1px solid var(--stroke);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .hero-card{
+      overflow:hidden;
+      margin-bottom:18px;
+      padding:0;
+    }
+
+    .hero-image-wrap{
+      width:100%;
+      background:#0f2238;
+    }
+
+    .hero-image{
+      width:100%;
+      display:block;
+      object-fit:cover;
+      max-height:280px;
+    }
+
+    .card{
+      overflow:hidden;
+    }
+
+    .content{
+      padding:28px;
+    }
+
+    .content > :first-child{
+      margin-top:0 !important;
+    }
+
+    .content h1,
+    .content h2,
+    .content h3,
+    .content h4,
+    .content h5,
+    .content h6{
+      color:#17314d;
+      line-height:1.2;
+      letter-spacing:-.02em;
+      margin:20px 0 12px;
+    }
+
+    .content h1{font-size:1.95rem}
+    .content h2{font-size:1.55rem}
+    .content h3{font-size:1.22rem}
+    .content h4{font-size:1.08rem}
+
+    .content p,
+    .content li,
+    .content blockquote,
+    .content td,
+    .content th{
+      font-size:1rem;
+      line-height:1.85;
+      color:#243648;
+    }
+
+    .content strong,
+    .content b{color:#0f2940}
+
+    .content ul,
+    .content ol{
+      padding-left:1.35rem;
+    }
+
+    .content img{
+      border-radius:18px;
+      margin:18px auto;
+      box-shadow:0 16px 34px rgba(15,23,42,.10);
+    }
+
+    .content blockquote{
+      margin:18px 0;
+      padding:14px 16px;
+      border-left:4px solid var(--primary);
+      background:#fff8ef;
+      border-radius:12px;
+    }
+
+    .content table{
+      width:100%;
+      border-collapse:collapse;
+      margin:18px 0;
+      border:1px solid rgba(15,23,42,.08);
+      border-radius:16px;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    .content th,
+    .content td{
+      padding:12px 14px;
+      border-bottom:1px solid rgba(15,23,42,.06);
+      text-align:left;
+    }
+
+    .content hr{
+      border:none;
+      border-top:1px solid rgba(15,23,42,.08);
+      margin:24px 0;
+    }
+
+    .audio-card{
+      display:none;
+      padding:18px;
+      margin-top:18px;
+    }
+
+    .audio-card.show{
+      display:block;
+    }
+
+    .audio-card-head{
+      display:grid;
+      grid-template-columns:72px 1fr;
+      gap:14px;
+      align-items:center;
+      margin-bottom:14px;
+    }
+
+    .audio-cover{
+      width:72px;
+      height:72px;
+      border-radius:18px;
+      overflow:hidden;
+      background:linear-gradient(135deg, rgba(247,178,77,.35), rgba(22,136,220,.20));
+      border:1px solid rgba(15,23,42,.08);
+      box-shadow:0 12px 24px rgba(15,23,42,.12);
+    }
+
+    .audio-cover img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .audio-card-title{
+      font-weight:800;
+      margin:0 0 5px;
+      font-size:1rem;
+    }
+
+    .audio-card-desc{
+      margin:0;
+      color:var(--muted);
+      font-size:.9rem;
+      line-height:1.6;
+    }
+
+    .audio-inline{
+      width:100%;
+      margin-bottom:12px;
+    }
+
+    .actions-footer{
+      margin-top:18px;
+      padding:16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .share-btn,.pdf-btn,.action-btn{
+      min-height:46px;
+      border-radius:16px;
+      padding:0 16px;
+      font-weight:800;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      flex:1 1 220px;
+    }
+
+    .share-btn{background:linear-gradient(135deg,#1688dc,#0267b3);color:#fff}
+    .pdf-btn{background:#fff;color:#122130;border:1px solid rgba(15,23,42,.12)}
+    .action-btn{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#1c2430}
+
+    .fixed-player{
+      position:fixed;
+      left:14px;
+      right:14px;
+      bottom:14px;
+      z-index:2200;
+      border-radius:26px;
+      background:rgba(7,17,31,.96);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:0 24px 60px rgba(0,0,0,.30);
+      backdrop-filter:blur(18px);
+      transform:translateY(130%);
+      opacity:0;
+      pointer-events:none;
+      transition:.3s ease;
+      overflow:hidden;
+    }
+
+    .fixed-player.show{
+      transform:translateY(0);
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .fixed-player-inner{
+      display:grid;
+      grid-template-columns:62px minmax(0,1fr) auto;
+      gap:12px;
+      align-items:center;
+      padding:12px;
+    }
+
+    .fixed-cover{
+      width:62px;
+      height:62px;
+      border-radius:18px;
+      overflow:hidden;
+      background:linear-gradient(135deg, rgba(247,178,77,.28), rgba(22,136,220,.18));
+      border:1px solid rgba(255,255,255,.10);
+      flex-shrink:0;
+    }
+
+    .fixed-cover img{width:100%;height:100%;object-fit:cover}
+
+    .fixed-info{min-width:0}
+
+    .fixed-status{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:.72rem;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:900;
+      color:#d7e8f8;
+      margin-bottom:4px;
+    }
+
+    .bars{display:inline-flex;align-items:flex-end;gap:3px;height:16px}
+    .bars span{
+      width:4px;
+      height:6px;
+      border-radius:999px;
+      background:linear-gradient(180deg,var(--primary),var(--primary-2));
+      opacity:.5;
+    }
+
+    .fixed-player.playing .bars span{animation:bounce .95s infinite ease-in-out;opacity:1}
+    .fixed-player.playing .bars span:nth-child(2){animation-delay:.12s}
+    .fixed-player.playing .bars span:nth-child(3){animation-delay:.24s}
+    .fixed-player.playing .bars span:nth-child(4){animation-delay:.36s}
+
+    @keyframes bounce{
+      0%,100%{height:6px}
+      25%{height:16px}
+      50%{height:10px}
+      75%{height:13px}
+    }
+
+    .fixed-title{
+      font-weight:800;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      margin-bottom:3px;
+    }
+
+    .fixed-subtitle{
+      color:#b8c9d9;
+      font-size:.82rem;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .fixed-controls{display:flex;gap:8px;align-items:center}
+
+    .player-btn{
+      width:42px;height:42px;border-radius:14px;border:none;cursor:pointer;
+      display:grid;place-items:center;
+      background:rgba(255,255,255,.08);color:#fff;
+      transition:.25s ease;
+    }
+
+    .player-btn.primary{background:linear-gradient(135deg,var(--primary),var(--primary-2));color:#102131}
+
+    .fixed-progress-wrap{
+      padding:0 12px 12px;
+      display:grid;
+      grid-template-columns:1fr auto;
+      align-items:center;
+      gap:10px;
+    }
+
+    .fixed-progress{
+      width:100%;
+      -webkit-appearance:none;
+      appearance:none;
+      height:6px;
+      border-radius:999px;
+      background:rgba(255,255,255,.14);
+      outline:none;
+      cursor:pointer;
+    }
+
+    .fixed-progress::-webkit-slider-thumb{
+      -webkit-appearance:none;
+      appearance:none;
+      width:14px;height:14px;border-radius:50%;background:var(--primary);
+      border:2px solid #fff4df;box-shadow:-100vw 0 0 100vw rgba(247,178,77,.88);
+    }
+
+    .fixed-time{
+      color:#c6d7e7;
+      font-size:.78rem;
+      min-width:94px;
+      text-align:right;
+      font-variant-numeric:tabular-nums;
+    }
+
+    .toast{
+      position:fixed;
+      top:86px;
+      right:16px;
+      z-index:2500;
+      background:rgba(7,17,31,.95);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
+      padding:14px 16px;
+      box-shadow:0 20px 50px rgba(0,0,0,.22);
+      transform:translateY(-12px);
+      opacity:0;
+      pointer-events:none;
+      transition:.28s ease;
+      max-width:min(380px, calc(100vw - 32px));
+    }
+
+    .toast.show{transform:translateY(0);opacity:1}
+    .toast strong{display:block;margin-bottom:4px}
+    .toast span{font-size:.9rem;color:#cbd7e3;line-height:1.5}
+
+    .error-box{padding:24px}
+    .error-box h2{margin:0 0 10px}
+    .error-box p{margin:0;color:var(--muted);line-height:1.7}
+
+    @media (max-width: 640px){
+      body{padding-bottom:140px}
+      .topbar-inner{padding:10px 12px}
+      #tituloTopbar{max-width:46vw}
+      .page{padding:0 12px 24px}
+      .content{padding:20px 18px}
+      .audio-card-head{grid-template-columns:60px 1fr}
+      .fixed-player-inner{grid-template-columns:52px minmax(0,1fr) auto;padding:10px}
+      .fixed-cover{width:52px;height:52px;border-radius:16px}
+      .player-btn{width:38px;height:38px}
+      .actions-footer{padding:12px}
+      .share-btn,.pdf-btn,.action-btn{flex:1 1 100%}
+      .hero-image{max-height:220px}
+      .topbar-actions .icon-btn:last-child{display:none}
+    }
+
+    @media print{
+      body{background:#fff;padding-bottom:0}
+      .topbar,.audio-card,.actions-footer,.fixed-player,.toast{display:none !important}
+      .page{max-width:100%;padding:0;margin:0}
+      .hero-card,.card{box-shadow:none;border:1px solid #ccc}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-left">
+        <button class="back-btn" onclick="voltar()"><i class="fas fa-arrow-left"></i> Voltar</button>
+        <div class="title-wrap">
+          <div class="eyebrow">EBD Fiel • Lição</div>
+          <div id="tituloTopbar">Lição</div>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <button id="shareTopBtn" class="icon-btn" title="Compartilhar"><i class="fas fa-share-alt"></i></button>
+        <button id="scrollTopBtn" class="icon-btn" title="Voltar ao topo"><i class="fas fa-chevron-up"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <div id="toast" class="toast"></div>
+
+  <main class="page">
+    <section id="heroContainer"></section>
+
+    <article class="card">
+      <div id="app" class="content"></div>
+
+      <div style="padding:0 28px 0;">
+        <audio id="globalPodcastPlayer" controls style="width:100%; margin:0 0 18px; display:none;"></audio>
+      </div>
+    </article>
+
+    <section id="audioSidebarCard" class="audio-card"></section>
+
+    <section class="actions-footer">
+      <button id="downloadPDFBtn" class="pdf-btn"><i class="fas fa-file-pdf" style="color:#dc2626;"></i> Salvar como PDF</button>
+      <button id="shareBtn" class="share-btn"><i class="fas fa-share-alt"></i> Compartilhar app</button>
+      <button id="copyLessonBtn" class="action-btn"><i class="fas fa-link"></i> Copiar link da lição</button>
+    </section>
+  </main>
+
+  <div id="globalAudioPlayer" class="fixed-player" aria-live="polite">
+    <div class="fixed-player-inner">
+      <div class="fixed-cover"><img id="fixedPlayerCover" src="" alt="Capa do áudio" /></div>
+
+      <div class="fixed-info">
+        <div class="fixed-status">
+          <span class="bars"><span></span><span></span><span></span><span></span></span>
+          <span id="fixedStatusText">áudio global</span>
+        </div>
+        <div id="fixedPlayerTitle" class="fixed-title">Nenhum áudio ativo</div>
+        <div id="fixedPlayerSubtitle" class="fixed-subtitle">Selecione uma lição com áudio</div>
+      </div>
+
+      <div class="fixed-controls">
+        <button id="fixedPlayBtn" class="player-btn primary" title="Reproduzir/Pausar"><i class="fas fa-play"></i></button>
+        <button id="fixedCloseBtn" class="player-btn" title="Fechar"><i class="fas fa-xmark"></i></button>
+      </div>
+    </div>
+
+    <div class="fixed-progress-wrap">
+      <input id="fixedProgress" class="fixed-progress" type="range" min="0" max="100" value="0" />
+      <div id="fixedTime" class="fixed-time">00:00 / 00:00</div>
+    </div>
+  </div>
+
+  <audio id="globalAudioElement" preload="metadata"></audio>
+
+  <script>
+    let licaoAtual = null;
+
+    const APP_URL = 'https://ebdfiel.com.br/';
+    const STORAGE_KEYS = {
+      CURRENT_LESSON: 'licaoAtual',
+      RETURN_TO: 'voltarPara',
+      AUDIO_STATE: 'ebd_global_audio_state'
+    };
+
+    const heroContainer = document.getElementById('heroContainer');
+    const app = document.getElementById('app');
+    const toast = document.getElementById('toast');
+    const audioSidebarCard = document.getElementById('audioSidebarCard');
+    const globalPodcastPlayer = document.getElementById('globalPodcastPlayer');
+
+    const globalAudioPlayer = document.getElementById('globalAudioPlayer');
+    const globalAudioElement = document.getElementById('globalAudioElement');
+    const fixedPlayerCover = document.getElementById('fixedPlayerCover');
+    const fixedPlayerTitle = document.getElementById('fixedPlayerTitle');
+    const fixedPlayerSubtitle = document.getElementById('fixedPlayerSubtitle');
+    const fixedStatusText = document.getElementById('fixedStatusText');
+    const fixedPlayBtn = document.getElementById('fixedPlayBtn');
+    const fixedCloseBtn = document.getElementById('fixedCloseBtn');
+    const fixedProgress = document.getElementById('fixedProgress');
+    const fixedTime = document.getElementById('fixedTime');
+
+    function escapeHtml(str=''){
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function safeJsonParse(raw, fallback){
+      try { return raw ? JSON.parse(raw) : fallback; } catch { return fallback; }
+    }
+
+    function normalizeText(str=''){
+      return String(str)
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[•·:|]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase();
+    }
+
+    function getLessonId(licao){
+      if (!licao) return 'sem-id';
+      return String(licao.id || licao.slug || `${licao.tipo || 'class'}-${licao.numero || licao.titulo || 'licao'}`)
+        .toLowerCase()
+        .replace(/[^a-z0-9-_à-ÿ]+/gi, '-');
+    }
+
+    function voltar(){
+      const destino = sessionStorage.getItem(STORAGE_KEYS.RETURN_TO) || '#home';
+      window.location.replace('./index.html' + destino);
+    }
+    window.voltar = voltar;
+
+    function formatSeconds(value){
+      const total = Math.floor(Number(value) || 0);
+      const min = Math.floor(total / 60).toString().padStart(2, '0');
+      const sec = (total % 60).toString().padStart(2, '0');
+      return `${min}:${sec}`;
+    }
+
+    function getLessonImage(licao){
+      return licao.imagemHero || licao.capa || licao.cover || licao.banner || (licao.tipo === 'youth' ? './img/jovens.png' : './img/adultos.png');
+    }
+
+    function getLessonBadge(licao){
+      return licao.badge || licao.selo || (licao.tipo === 'youth' ? 'Jovens' : 'Adultos');
+    }
+
+    function getLessonSummary(licao){
+      return licao.resumo || licao.descricaoCurta || licao.descricao || 'Conteúdo especial preparado para aprofundar a lição da semana.';
+    }
+
+    function getLessonAudio(licao){
+      const candidates = [
+        licao.audioUrl,
+        licao.audio,
+        licao.podcast,
+        licao.podcastUrl,
+        licao.audio_file,
+        licao.audioSrc,
+        licao.audio_source
+      ];
+      const src = candidates.find(Boolean);
+      if (!src) return null;
+
+      return {
+        src,
+        title: licao.audioTitulo || licao.podcastTitulo || `Podcast da ${licao.titulo || 'lição'}`,
+        description: licao.audioDescricao || licao.podcastDescricao || 'Áudio complementar para ouvir enquanto navega pelo conteúdo.',
+        cover: licao.audioCapa || licao.podcastCapa || getLessonImage(licao),
+        lessonId: getLessonId(licao),
+        lessonTitle: licao.titulo || 'Lição'
+      };
+    }
+
+    function montarHeroDaLicao(licao){
+      const image = getLessonImage(licao);
+      const alt = escapeHtml(licao.titulo || 'Lição');
+
+      heroContainer.innerHTML = `
+        <section class="hero-card">
+          <div class="hero-image-wrap">
+            <img class="hero-image" src="${image}" alt="${alt}">
+          </div>
+        </section>
+      `;
+    }
+
+    function montarPaginaDaLicao(licao){
+      return `${licao.conteudo || '<p>Conteúdo não disponível.</p>'}`;
+    }
+
+    function removeOnlySafeDuplicateTitle(container, licao){
+      if (!container || !licao) return;
+
+      const title = normalizeText(licao.titulo || '');
+      const numero = normalizeText(licao.numero ? `licao ${licao.numero}` : '');
+      const numeroComAcento = normalizeText(licao.numero ? `lição ${licao.numero}` : '');
+      const summary = normalizeText(getLessonSummary(licao) || '');
+
+      const subtitleCandidates = [
+        normalizeText(licao.subtitulo || ''),
+        normalizeText(licao.linhaFina || ''),
+        normalizeText(licao.descricaoLinha || '')
+      ].filter(Boolean);
+
+      const titlePatterns = [
+        title,
+        normalizeText(`lição ${licao.numero || ''} ${licao.titulo || ''}`),
+        normalizeText(`licao ${licao.numero || ''} ${licao.titulo || ''}`),
+        normalizeText(`lição ${licao.numero || ''} - ${licao.titulo || ''}`),
+        normalizeText(`licao ${licao.numero || ''} - ${licao.titulo || ''}`),
+        normalizeText(`lição ${licao.numero || ''} · ${licao.titulo || ''}`),
+        normalizeText(`licao ${licao.numero || ''} · ${licao.titulo || ''}`),
+        normalizeText(`preparando-se para o agir de Deus`) // fallback seguro para esse padrão de lição
+      ].filter(Boolean);
+
+      const removableSelectors = 'h1,h2,h3,h4,h5,h6,p';
+      const nodes = Array.from(container.querySelectorAll(removableSelectors)).slice(0, 8);
+
+      let removedTitles = 0;
+      let removedSummary = false;
+
+      nodes.forEach((node) => {
+        const text = normalizeText(node.textContent || '');
+        if (!text) return;
+
+        const isHeading = /^H[1-6]$/.test(node.tagName);
+
+        const isDuplicateTitle =
+          titlePatterns.some(pattern => pattern && text === pattern) ||
+          (isHeading && numero && (text === numero || text === numeroComAcento)) ||
+          (isHeading && title && text.includes(title) && (text.includes(numero) || text.includes(numeroComAcento)));
+
+        const isDuplicateSummary =
+          !removedSummary &&
+          (
+            (summary && text === summary) ||
+            subtitleCandidates.includes(text) ||
+            text === normalizeText('conteúdo especial preparado para aprofundar a lição da semana.')
+          );
+
+        if (isDuplicateTitle && removedTitles < 2) {
+          node.remove();
+          removedTitles++;
+          return;
+        }
+
+        if (!isHeading && isDuplicateSummary) {
+          node.remove();
+          removedSummary = true;
+        }
+      });
+    }
+
+    function renderErro(msg){
+      heroContainer.innerHTML = '';
+      app.innerHTML = `
+        <div class="error-box">
+          <h2>Erro</h2>
+          <p>${escapeHtml(msg)}</p>
+        </div>
+      `;
+    }
+
+    function showToast(title, text){
+      toast.innerHTML = `<strong>${escapeHtml(title)}</strong><span>${escapeHtml(text)}</span>`;
+      toast.classList.add('show');
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(() => toast.classList.remove('show'), 2800);
+    }
+
+    function saveAudioState(state){
+      localStorage.setItem(STORAGE_KEYS.AUDIO_STATE, JSON.stringify(state));
+    }
+
+    function getAudioState(){
+      return safeJsonParse(localStorage.getItem(STORAGE_KEYS.AUDIO_STATE), null);
+    }
+
+    function buildAudioState(payload = {}){
+      return {
+        src: payload.src || '',
+        title: payload.title || 'Áudio',
+        description: payload.description || '',
+        cover: payload.cover || getLessonImage(licaoAtual || {}),
+        lessonId: payload.lessonId || getLessonId(licaoAtual || {}),
+        lessonTitle: payload.lessonTitle || (licaoAtual?.titulo || 'Lição'),
+        currentTime: Number(payload.currentTime) || 0,
+        duration: Number(payload.duration) || 0,
+        isPlaying: Boolean(payload.isPlaying)
+      };
+    }
+
+    function updateGlobalPlayerUI(state){
+      if (!state?.src) {
+        globalAudioPlayer.classList.remove('show', 'playing');
+        if (globalPodcastPlayer) {
+          globalPodcastPlayer.style.display = 'none';
+          globalPodcastPlayer.removeAttribute('src');
+        }
+        return;
+      }
+
+      globalAudioPlayer.classList.add('show');
+      fixedPlayerCover.src = state.cover || getLessonImage(licaoAtual || {});
+      fixedPlayerTitle.textContent = state.title || 'Áudio';
+      fixedPlayerSubtitle.textContent = state.lessonTitle || 'Lição';
+      fixedStatusText.textContent = state.isPlaying ? 'tocando agora' : 'áudio global';
+      fixedPlayBtn.innerHTML = state.isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>';
+      globalAudioPlayer.classList.toggle('playing', Boolean(state.isPlaying));
+
+      const duration = Number(state.duration) || Number(globalAudioElement.duration) || 0;
+      const currentTime = Number(state.currentTime) || 0;
+      const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+      fixedProgress.value = Math.max(0, Math.min(100, progress));
+      fixedTime.textContent = `${formatSeconds(currentTime)} / ${formatSeconds(duration)}`;
+
+      if (globalPodcastPlayer) {
+        globalPodcastPlayer.style.display = 'none';
+      }
+    }
+
+    function syncGlobalPodcastPlayerFromState(state){
+      if (!globalPodcastPlayer || !state?.src) return;
+
+      if (globalPodcastPlayer.src !== state.src) {
+        globalPodcastPlayer.src = state.src;
+      }
+
+      globalPodcastPlayer.volume = 1;
+
+      const apply = () => {
+        try { globalPodcastPlayer.currentTime = Number(state.currentTime) || 0; } catch {}
+      };
+
+      if (globalPodcastPlayer.readyState >= 1) apply();
+      else globalPodcastPlayer.addEventListener('loadedmetadata', apply, { once: true });
+    }
+
+    function syncStateFromAudioElement(extra = {}){
+      const current = getAudioState() || {};
+      const merged = buildAudioState({
+        ...current,
+        currentTime: globalAudioElement.currentTime,
+        duration: globalAudioElement.duration || current.duration,
+        isPlaying: !globalAudioElement.paused && !globalAudioElement.ended,
+        ...extra
+      });
+      saveAudioState(merged);
+      updateGlobalPlayerUI(merged);
+      syncGlobalPodcastPlayerFromState(merged);
+      return merged;
+    }
+
+    async function activateGlobalAudio(audioInfo, autoplay = false){
+      if (!audioInfo?.src) return;
+      const current = getAudioState();
+      const sameSource = current?.src === audioInfo.src;
+      const state = buildAudioState({
+        ...(sameSource ? current : {}),
+        ...audioInfo,
+        currentTime: sameSource ? current.currentTime : 0,
+        isPlaying: autoplay
+      });
+
+      if (globalAudioElement.src !== audioInfo.src) {
+        globalAudioElement.src = audioInfo.src;
+      }
+
+      try { globalAudioElement.currentTime = Number(state.currentTime) || 0; } catch {}
+
+      saveAudioState(state);
+      updateGlobalPlayerUI(state);
+      syncGlobalPodcastPlayerFromState(state);
+
+      if (autoplay) {
+        try {
+          await globalAudioElement.play();
+          syncStateFromAudioElement({ isPlaying: true });
+        } catch {
+          updateGlobalPlayerUI({ ...state, isPlaying: false });
+          saveAudioState({ ...state, isPlaying: false });
+          showToast('Áudio preparado', 'Toque em play para continuar ouvindo.');
+        }
+      }
+    }
+
+    function renderAudioCard(audioInfo){
+      if (!audioInfo?.src) {
+        audioSidebarCard.classList.remove('show');
+        audioSidebarCard.innerHTML = '';
+        return;
+      }
+
+      audioSidebarCard.classList.add('show');
+      audioSidebarCard.innerHTML = `
+        <div class="audio-card-head">
+          <div class="audio-cover"><img src="${audioInfo.cover}" alt="${escapeHtml(audioInfo.title)}"></div>
+          <div>
+            <p class="audio-card-title">${escapeHtml(audioInfo.title)}</p>
+            <p class="audio-card-desc">${escapeHtml(audioInfo.description)}</p>
+          </div>
+        </div>
+
+        <audio class="audio-inline" controls preload="metadata" src="${audioInfo.src}"></audio>
+
+        <button class="action-btn" id="continueGlobalAudioBtn">
+          <i class="fas fa-play-circle"></i> Ouvir no player global
+        </button>
+      `;
+
+      const inlineAudio = audioSidebarCard.querySelector('.audio-inline');
+      const continueBtn = document.getElementById('continueGlobalAudioBtn');
+
+      continueBtn?.addEventListener('click', async () => {
+        await activateGlobalAudio(audioInfo, true);
+        showToast('Player global ativado', 'O áudio continuará mesmo ao voltar para a página inicial.');
+      });
+
+      inlineAudio?.addEventListener('play', async () => {
+        await activateGlobalAudio(audioInfo, false);
+        try { globalAudioElement.currentTime = inlineAudio.currentTime || 0; } catch {}
+        try { await globalAudioElement.play(); } catch {}
+        syncStateFromAudioElement({ isPlaying: true });
+      });
+
+      inlineAudio?.addEventListener('pause', () => {
+        if (!globalAudioElement.paused) globalAudioElement.pause();
+        syncStateFromAudioElement({ isPlaying: false, currentTime: inlineAudio.currentTime || globalAudioElement.currentTime || 0 });
+      });
+
+      inlineAudio?.addEventListener('seeking', () => {
+        try { globalAudioElement.currentTime = inlineAudio.currentTime || 0; } catch {}
+        syncStateFromAudioElement({ currentTime: inlineAudio.currentTime || 0 });
+      });
+    }
+
+    function restoreGlobalAudioForPage(){
+      const state = getAudioState();
+      if (!state?.src) return;
+
+      if (globalAudioElement.src !== state.src) {
+        globalAudioElement.src = state.src;
+      }
+
+      const applyTime = () => {
+        try { globalAudioElement.currentTime = Number(state.currentTime) || 0; } catch {}
+        updateGlobalPlayerUI(state);
+        syncGlobalPodcastPlayerFromState(state);
+
+        if (state.isPlaying) {
+          globalAudioElement.play().then(() => {
+            syncStateFromAudioElement({ isPlaying: true });
+          }).catch(() => {
+            saveAudioState({ ...state, isPlaying: false });
+            updateGlobalPlayerUI({ ...state, isPlaying: false });
+          });
+        }
+      };
+
+      if (globalAudioElement.readyState >= 1) applyTime();
+      else globalAudioElement.addEventListener('loadedmetadata', applyTime, { once: true });
+    }
+
+    function bindGlobalAudioPlayer(){
+      fixedPlayBtn.addEventListener('click', async () => {
+        const state = getAudioState();
+        if (!state?.src) return;
+
+        if (globalAudioElement.paused) {
+          try {
+            await globalAudioElement.play();
+            syncStateFromAudioElement({ isPlaying: true });
+          } catch {
+            showToast('Não foi possível reproduzir', 'Toque no áudio da lição para liberar a reprodução no navegador.');
+          }
+        } else {
+          globalAudioElement.pause();
+          syncStateFromAudioElement({ isPlaying: false });
+        }
+      });
+
+      fixedCloseBtn.addEventListener('click', () => {
+        globalAudioElement.pause();
+        globalAudioElement.removeAttribute('src');
+        globalAudioElement.load();
+        localStorage.removeItem(STORAGE_KEYS.AUDIO_STATE);
+        updateGlobalPlayerUI(null);
+
+        if (globalPodcastPlayer) {
+          globalPodcastPlayer.pause();
+          globalPodcastPlayer.removeAttribute('src');
+          globalPodcastPlayer.load();
+          globalPodcastPlayer.style.display = 'none';
+        }
+      });
+
+      fixedProgress.addEventListener('input', () => {
+        if (!globalAudioElement.duration) return;
+        const targetTime = (Number(fixedProgress.value) / 100) * globalAudioElement.duration;
+        globalAudioElement.currentTime = targetTime;
+        syncStateFromAudioElement({ currentTime: targetTime });
+      });
+
+      globalAudioElement.addEventListener('timeupdate', () => syncStateFromAudioElement());
+      globalAudioElement.addEventListener('loadedmetadata', () => syncStateFromAudioElement());
+      globalAudioElement.addEventListener('play', () => syncStateFromAudioElement({ isPlaying: true }));
+      globalAudioElement.addEventListener('pause', () => syncStateFromAudioElement({ isPlaying: false }));
+      globalAudioElement.addEventListener('ended', () => syncStateFromAudioElement({ isPlaying: false, currentTime: 0 }));
+
+      window.addEventListener('storage', (event) => {
+        if (event.key !== STORAGE_KEYS.AUDIO_STATE) return;
+        const newState = safeJsonParse(event.newValue, null);
+        if (!newState?.src) {
+          updateGlobalPlayerUI(null);
+          return;
+        }
+        if (globalAudioElement.src !== newState.src) globalAudioElement.src = newState.src;
+        updateGlobalPlayerUI(newState);
+        syncGlobalPodcastPlayerFromState(newState);
+      });
+    }
+
+    function buildCanonicalLessonUrl(licao){
+      const params = new URLSearchParams({ id: getLessonId(licao) });
+      return `${APP_URL}licao.html?${params.toString()}`;
+    }
+
+    async function shareApp(){
+      const url = APP_URL;
+      try {
+        if (navigator.share) {
+          await navigator.share({ title: 'EBD Fiel', text: 'Acesse as lições da EBD Fiel.', url });
+        } else {
+          await navigator.clipboard.writeText(url);
+          showToast('Link copiado', 'O endereço do app foi copiado para a área de transferência.');
+        }
+      } catch {}
+    }
+
+    async function copyLessonLink(){
+      if (!licaoAtual) return;
+      const url = buildCanonicalLessonUrl(licaoAtual);
+      try {
+        await navigator.clipboard.writeText(url);
+        showToast('Link da lição copiado', 'Agora você pode compartilhar esta lição com facilidade.');
+      } catch {
+        showToast('Não foi possível copiar', 'Seu navegador bloqueou o acesso à área de transferência.');
+      }
+    }
+
+    function baixarPDF(){
+      window.print();
+    }
+
+    function setupButtons(){
+      document.getElementById('downloadPDFBtn').addEventListener('click', baixarPDF);
+      document.getElementById('shareBtn').addEventListener('click', shareApp);
+      document.getElementById('shareTopBtn').addEventListener('click', shareApp);
+      document.getElementById('copyLessonBtn').addEventListener('click', copyLessonLink);
+      document.getElementById('scrollTopBtn').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    }
+
+    function hydratePage(){
+      try {
+        const raw = sessionStorage.getItem(STORAGE_KEYS.CURRENT_LESSON);
+
+        if (!raw) {
+          renderErro('Nenhuma lição encontrada.');
+          return;
+        }
+
+        licaoAtual = JSON.parse(raw);
+        document.title = `${licaoAtual.titulo || 'Lição'} - EBD Fiel`;
+        document.getElementById('tituloTopbar').textContent = licaoAtual.titulo || 'Lição';
+
+        montarHeroDaLicao(licaoAtual);
+
+        app.innerHTML = montarPaginaDaLicao(licaoAtual);
+        removeOnlySafeDuplicateTitle(app, licaoAtual);
+
+        const audioInfo = getLessonAudio(licaoAtual);
+        renderAudioCard(audioInfo);
+
+        if (audioInfo) {
+          const existingAudio = getAudioState();
+          if (!existingAudio?.src) {
+            activateGlobalAudio(audioInfo, false);
+          }
+        }
+
+        window.scrollTo(0, 0);
+      } catch (e) {
+        console.error(e);
+        renderErro('Erro ao carregar.');
+      }
+    }
+
+    bindGlobalAudioPlayer();
+    setupButtons();
+    hydratePage();
+    restoreGlobalAudioForPage();
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const saved = localStorage.getItem("globalPodcastState");
+      if (!saved) return;
+
+      try {
+        const state = JSON.parse(saved);
+        const player = document.getElementById("globalPodcastPlayer");
+        if (!player || !state.src) return;
+
+        player.src = state.src;
+        player.volume = state.volume ?? 1;
+
+        player.addEventListener("loadedmetadata", async () => {
+          try {
+            player.currentTime = state.currentTime || 0;
+            if (!state.paused) {
+              await player.play();
+            }
+          } catch (err) {
+            console.log("Autoplay bloqueado:", err);
+          }
+        }, { once: true });
+      } catch (err) {
+        console.log("Erro ao restaurar globalPodcastState:", err);
+      }
+    });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const saved = sessionStorage.getItem("ebdfiel_audio_resume_state_v1");
+      if (!saved) return;
+
+      try {
+        const state = JSON.parse(saved);
+        const player = document.getElementById("globalPodcastPlayer");
+        if (!player || !state.src) return;
+
+        player.src = state.src;
+        player.volume = 1;
+
+        player.addEventListener("loadedmetadata", async () => {
+          try {
+            player.currentTime = state.currentTime || 0;
+            if (!state.paused) {
+              await player.play();
+            }
+          } catch (err) {
+            console.log("Autoplay bloqueado:", err);
+          }
+        }, { once: true });
+      } catch (err) {
+        console.log("Erro ao restaurar ebdfiel_audio_resume_state_v1:", err);
+      }
+    });
+  </script>
+</body>
