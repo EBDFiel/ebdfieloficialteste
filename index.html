@@ -1,285 +1,1457 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="hide-scroll">
+<html lang="pt-BR" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <title>EBD Fiel - Visualização Responsiva</title>
-    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no,width=device-width">
-    <link rel="shortcut icon" href="https://csite.nicepage.com/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EBD Fiel | Escola Bíblica Dominical</title>
+    
+    <!-- Meta tags -->
+    <meta name="description" content="Material bíblico fiel para Escola Bíblica Dominical. Lições organizadas por trimestre para adultos e jovens.">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="./ebdfiel.png?v=2">
+    <link rel="apple-touch-icon" href="./ebdfiel.png?v=2">
+    <link rel="manifest" href="./manifest.json">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
     
     <style>
+        /* ========================================
+           MODERN PROFESSIONAL DESIGN - EBD FIEL
+        ======================================== */
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
+        
+        :root {
+            --dark-bg: #0a0f1a;
+            --dark-surface: #111827;
+            --dark-surface-2: #1f2937;
+            --dark-border: #374151;
+            --light-bg: #f8fafc;
+            --light-surface: #ffffff;
+            --light-surface-2: #f1f5f9;
+            --light-border: #e2e8f0;
+            --primary: #f59e0b;
+            --primary-dark: #d97706;
+            --primary-light: #fbbf24;
+            --secondary: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --text-dark: #0f172a;
+            --text-light: #f1f5f9;
+            --text-muted: #64748b;
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            --transition: all 0.2s ease;
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: var(--dark-bg);
+            --bg-secondary: var(--dark-surface);
+            --bg-tertiary: var(--dark-surface-2);
+            --text-primary: var(--text-light);
+            --text-secondary: #cbd5e1;
+            --border-color: var(--dark-border);
+            --card-bg: var(--dark-surface);
+        }
+        
+        [data-theme="light"] {
+            --bg-primary: var(--light-bg);
+            --bg-secondary: var(--light-surface);
+            --bg-tertiary: var(--light-surface-2);
+            --text-primary: var(--text-dark);
+            --text-secondary: #475569;
+            --border-color: var(--light-border);
+            --card-bg: var(--light-surface);
+        }
+        
         body {
-            font-family: 'Inter', 'Open Sans', sans-serif;
-            background: #f1f5f9;
-            overflow: hidden;
-            height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            transition: var(--transition);
+            padding-bottom: 90px;
         }
-
-        .page-preview {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            background: #e9eef3;
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
-
-        .page-preview-header {
-            background: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
-            height: 70px;
-            position: relative;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            flex-shrink: 0;
+        
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            letter-spacing: -0.02em;
         }
-
-        .page-preview-header > a {
+        
+        /* Buttons */
+        .btn {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            padding: 8px;
-            border-radius: 12px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-        }
-
-        .page-preview-header > a:hover {
-            background: #eef2ff;
-            transform: translateY(-1px);
-        }
-
-        .page-preview-header > a.active {
-            background: #dbeafe;
-            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
-        }
-
-        .page-preview-header img {
-            width: 28px;
-            height: 28px;
-            display: block;
-        }
-
-        .close {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            text-decoration: none;
-            font-size: 24px;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 9999px;
             font-weight: 600;
-            color: #64748b;
-            transition: color 0.2s;
+            font-size: 0.875rem;
+            transition: var(--transition);
             cursor: pointer;
-        }
-
-        .close:hover {
-            color: #ef4444;
-        }
-
-        .page-preview-body {
-            flex: 1;
-            overflow: hidden;
-            text-align: center;
-            background: #e9eef3;
-            padding: 12px;
-        }
-
-        .page-preview-body iframe {
             border: none;
-            width: 100%;
-            height: 100%;
-            border-radius: 20px;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
-            background: white;
-            transition: all 0.2s;
-        }
-
-        .logo-floating {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 1000;
-            background: rgba(255,255,255,0.9);
-            backdrop-filter: blur(4px);
-            padding: 8px 14px;
-            border-radius: 40px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            font-size: 14px;
-            font-weight: 600;
             text-decoration: none;
-            color: #0f172a;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--border-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .btn-icon:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .btn-icon.completed {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success);
+            border-color: var(--success);
+        }
+        
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(var(--bg-primary), 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            gap: 24px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.25rem;
+            margin-bottom: 2px;
+        }
+        
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .nav {
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: 0.2s;
         }
-
-        .logo-floating:hover {
-            background: white;
-            transform: scale(1.02);
+        
+        .nav-link {
+            padding: 8px 16px;
+            border-radius: 9999px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: var(--transition);
         }
-
-        @media (max-width: 640px) {
-            .page-preview-header {
-                gap: 6px;
-                height: 60px;
-            }
-            .page-preview-header img {
-                width: 22px;
-                height: 22px;
-            }
-            .close {
-                right: 12px;
-                font-size: 20px;
-            }
-            .logo-floating {
-                bottom: 12px;
-                left: 12px;
-                font-size: 11px;
-                padding: 6px 12px;
-            }
+        
+        .nav-link:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
         }
-
-        .hide-scroll {
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            padding: 6px 16px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 24px;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 800px;
+            margin: 48px auto 0;
+            padding-top: 48px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        /* Section */
+        .section {
+            padding: 64px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+        
+        .section-header h2 {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
             overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .card-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .card-header h3 {
+            font-size: 1.25rem;
+            margin-bottom: 8px;
+        }
+        
+        .card-header p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .card-body {
+            padding: 24px;
+        }
+        
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+        }
+        
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-color);
+            gap: 12px;
+        }
+        
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge-available {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        
+        .badge-upcoming {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--primary);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+        
+        .badge-completed {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+            font-size: 0.7rem;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            border-radius: 9999px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .tab:hover:not(.active) {
+            background: var(--border-color);
+        }
+        
+        /* Footer */
+        .footer {
+            border-top: 1px solid var(--border-color);
+            padding: 48px 0 32px;
+            margin-top: 48px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 48px;
+            margin-bottom: 48px;
+        }
+        
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 16px;
+        }
+        
+        .footer-column h4 {
+            font-size: 0.875rem;
+            margin-bottom: 16px;
+        }
+        
+        .footer-column a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+        
+        .footer-column a:hover {
+            color: var(--primary);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        
+        /* Theme Toggle */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .theme-toggle:hover {
+            background: var(--border-color);
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 48px;
+        }
+        
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--border-color);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 9999px;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1000;
+            opacity: 0;
+            transition: var(--transition);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .nav {
+                display: none;
+                position: absolute;
+                top: 80px;
+                left: 16px;
+                right: 16px;
+                background: var(--bg-secondary);
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-lg);
+                padding: 16px;
+                flex-direction: column;
+            }
+            
+            .nav.active {
+                display: flex;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero {
+                padding: 48px 0;
+            }
+            
+            .section {
+                padding: 40px 0;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card {
+            animation: fadeInUp 0.4s ease forwards;
+        }
+        
+        /* Splash Screen */
+        #splash {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+        
+        #splash.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .splash-content {
+            text-align: center;
+        }
+        
+        .splash-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 24px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Admin Badge */
+        .admin-badge {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--primary);
+            border-radius: 9999px;
+            padding: 8px 16px;
+            font-size: 0.75rem;
+            z-index: 1000;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .admin-badge:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid var(--border-color);
+        }
+        
+        .modal-content h3 {
+            margin-bottom: 16px;
+        }
+        
+        .modal-content input {
+            width: 100%;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
         }
     </style>
 </head>
 <body>
 
-<div class="page-preview">
-    <div class="page-preview-header">
-        <a href="#" id="previewDesktopBtn" data-preview-size="100%" title="Desktop">
-            <img alt="Desktop" src="//csite.nicepage.com/Images/Site/responsive-desktop.png">
-        </a>
-        <a href="#" id="previewLaptopBtn" data-preview-size="1040px" title="Laptop">
-            <img alt="Laptop" src="//csite.nicepage.com/Images/Site/responsive-laptop.png">
-        </a>
-        <a href="#" id="previewTabletBtn" data-preview-size="820px" title="Tablet">
-            <img alt="Tablet" src="//csite.nicepage.com/Images/Site/responsive-tablet.png">
-        </a>
-        <a href="#" id="previewPhoneHorizontalBtn" data-preview-size="640px" title="Phone Horizontal">
-            <img alt="Phone Horizontal" src="//csite.nicepage.com/Images/Site/responsive-phone-horizontal.png">
-        </a>
-        <a href="#" id="previewPhoneBtn" data-preview-size="440px" title="Phone Vertical">
-            <img alt="Phone" src="//csite.nicepage.com/Images/Site/responsive-phone.png">
-        </a>
-        <a class="close" id="closePreviewBtn" title="Fechar">✕</a>
-    </div>
-    <div class="page-preview-body">
-        <iframe id="livePreviewFrame" src="https://ebdfiel.com.br/" width="100%" height="100%" style="width:100%;" title="EBD Fiel"></iframe>
+<!-- Splash Screen -->
+<div id="splash">
+    <div class="splash-content">
+        <div class="splash-logo">
+            <i class="fas fa-book-bible"></i>
+        </div>
+        <h3>EBD Fiel</h3>
+        <p style="color: var(--text-secondary); margin-top: 8px;">Carregando...</p>
     </div>
 </div>
 
-<a class="logo-floating" href="https://ebdfiel.com.br/" target="_blank">
-    <span>📖</span> EBD Fiel
-</a>
+<!-- Admin Badge -->
+<div class="admin-badge" id="adminBadge">
+    <i class="fas fa-user-shield"></i> Admin
+</div>
+
+<!-- Login Modal -->
+<div class="modal" id="loginModal">
+    <div class="modal-content">
+        <h3><i class="fas fa-lock"></i> Acesso Admin</h3>
+        <input type="email" id="adminEmail" placeholder="Email" autocomplete="email">
+        <input type="password" id="adminPassword" placeholder="Senha" autocomplete="current-password">
+        <div class="modal-buttons">
+            <button class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="loginAdmin()">Entrar</button>
+        </div>
+        <div id="loginStatus" style="margin-top: 12px; font-size: 0.75rem; color: var(--danger);"></div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+    <i class="fas fa-check-circle" style="color: var(--success);"></i>
+    <span id="toastMessage"></span>
+</div>
+
+<!-- Header -->
+<header class="header">
+    <div class="container">
+        <div class="header-inner">
+            <div class="logo" id="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-book-bible"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>EBD Fiel</h1>
+                    <p>Fiel à Palavra. Relevante para hoje.</p>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="nav" id="mainNav">
+                <a href="#home" class="nav-link">Início</a>
+                <a href="#adults" class="nav-link">Adultos</a>
+                <a href="#youth" class="nav-link">Jovens</a>
+                <a href="#about" class="nav-link">Sobre</a>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<main>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-badge">
+                <i class="fas fa-church"></i>
+                <span>Escola Bíblica Dominical</span>
+            </div>
+            <h1 id="heroTitle">Vivendo Fiel e ensinando a Palavra de Deus todos os dias</h1>
+            <p id="heroSubtitle">A Escola Bíblica Dominical é um tempo precioso de crescimento espiritual, comunhão e ensino fiel das Escrituras.</p>
+            <div class="hero-buttons">
+                <a href="#adults" class="btn btn-primary">
+                    <i class="fas fa-book-bible"></i> Classe Adultos
+                </a>
+                <a href="#youth" class="btn btn-secondary">
+                    <i class="fas fa-users"></i> Classe Jovens
+                </a>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-value" id="statLessons">0</div>
+                    <div class="stat-label">Lições</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">4</div>
+                    <div class="stat-label">Trimestres</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Classes</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Adults Section -->
+    <section class="section" id="adults">
+        <div class="container">
+            <div class="section-header">
+                <h2>📖 Classe Adultos</h2>
+                <p>Estudos bíblicos profundos e aplicações práticas para o trimestre</p>
+            </div>
+            
+            <div class="tabs" id="adultTabs">
+                <button class="tab" data-trim="1">1º Trimestre</button>
+                <button class="tab" data-trim="2">2º Trimestre</button>
+                <button class="tab" data-trim="3">3º Trimestre</button>
+                <button class="tab" data-trim="4">4º Trimestre</button>
+            </div>
+            
+            <div class="cards-grid" id="adultLessonsContainer">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Carregando lições...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Youth Section -->
+    <section class="section" id="youth">
+        <div class="container">
+            <div class="section-header">
+                <h2>👥 Classe Jovens</h2>
+                <p>Lições com linguagem atual e aplicações práticas para a juventude cristã</p>
+            </div>
+            
+            <div class="tabs" id="youthTabs">
+                <button class="tab" data-trim="1">1º Trimestre</button>
+                <button class="tab" data-trim="2">2º Trimestre</button>
+                <button class="tab" data-trim="3">3º Trimestre</button>
+                <button class="tab" data-trim="4">4º Trimestre</button>
+            </div>
+            
+            <div class="cards-grid" id="youthLessonsContainer">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Carregando lições...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <h2>Sobre o Projeto</h2>
+                <p>Material bíblico fiel para fortalecer a Escola Bíblica Dominical</p>
+            </div>
+            
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3>Estudo Exegético</h3>
+                        <p>Análise cuidadosa do texto bíblico com fidelidade às Escrituras</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Para Todos</h3>
+                        <p>Conteúdos organizados para adultos e jovens em navegação simples</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>100% Responsivo</h3>
+                        <p>Acesse de qualquer dispositivo com experiência otimizada</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="logo-icon" style="width: 48px; height: 48px;">
+                    <i class="fas fa-book-bible"></i>
+                </div>
+                <p>Material bíblico fiel para fortalecer a Escola Bíblica Dominical.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Links Rápidos</h4>
+                <a href="#home">Início</a>
+                <a href="#adults">Adultos</a>
+                <a href="#youth">Jovens</a>
+                <a href="#about">Sobre</a>
+            </div>
+            <div class="footer-column">
+                <h4>Recursos</h4>
+                <a href="#" id="quizLinkAdult">Quiz Adultos</a>
+                <a href="#" id="quizLinkYouth">Quiz Jovens</a>
+            </div>
+            <div class="footer-column">
+                <h4>Redes Sociais</h4>
+                <a href="#" id="socialInstagram"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#" id="socialFacebook"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" id="socialYoutube"><i class="fab fa-youtube"></i> YouTube</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 EBD Fiel - Todos os direitos reservados.</p>
+            <p style="margin-top: 8px;">✝️ "Examinai as Escrituras" - João 5:39</p>
+        </div>
+    </div>
+</footer>
 
 <script>
-    (function() {
-        // ==================== LÓGICA DE PREVIEW RESPONSIVO ====================
-        function setActiveResponsiveButton(btn) {
-            document.querySelectorAll('.page-preview-header > a').forEach(el => {
-                if (el.classList) el.classList.remove('active');
-            });
-            if (btn && btn.classList) btn.classList.add('active');
-        }
-
-        function getDataPreviewSizeAttr(el) {
-            return el.getAttribute('data-preview-size');
-        }
-
-        function getScrollbarWidth() {
-            let div = document.createElement('div');
-            div.style.width = '100px';
-            div.style.height = '100px';
-            div.style.overflow = 'scroll';
-            div.style.visibility = 'hidden';
-            div.style.position = 'absolute';
-            div.style.top = '-9999px';
-            document.body.appendChild(div);
-            let width = div.offsetWidth - div.clientWidth;
-            document.body.removeChild(div);
-            return width;
-        }
-
-        function setLivePreviewFrameSize(srcEl) {
-            let sizeValue = getDataPreviewSizeAttr(srcEl);
-            if (!sizeValue) return;
-            let ifr = document.getElementById('livePreviewFrame');
-            if (!ifr) return;
-            if (sizeValue.includes('%')) {
-                ifr.style.width = sizeValue;
-            } else {
-                let widthPx = parseInt(sizeValue, 10);
-                if (!isNaN(widthPx)) {
-                    let scrollbar = getScrollbarWidth();
-                    ifr.style.width = (widthPx + scrollbar) + 'px';
-                }
+    // ========================================
+    // FIREBASE CONFIGURATION
+    // ========================================
+    const firebaseConfig = {
+        apiKey: "AIzaSyDQoD4Nxi5Mc7HP8hANVIgC4O4y1PFtsIQ",
+        authDomain: "ebd-fiel-16abc.firebaseapp.com",
+        databaseURL: "https://ebd-fiel-16abc-default-rtdb.firebaseio.com",
+        projectId: "ebd-fiel-16abc",
+        storageBucket: "ebd-fiel-16abc.firebasestorage.app",
+        messagingSenderId: "307289323289",
+        appId: "1:307289323289:web:dbdc67cedb1d4c4ad4b788"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const auth = firebase.auth();
+    
+    // ========================================
+    // GLOBAL VARIABLES
+    // ========================================
+    let adultLessons = [];
+    let youthLessons = [];
+    let settings = {};
+    let isAdmin = false;
+    let activeAdultTrim = 1;
+    let activeYouthTrim = 1;
+    let completedLessons = {};
+    
+    // Storage keys
+    const COMPLETED_KEY = "ebd_completed_lessons";
+    
+    // ========================================
+    // LOAD COMPLETED LESSONS
+    // ========================================
+    function loadCompletedLessons() {
+        try {
+            const saved = localStorage.getItem(COMPLETED_KEY);
+            if (saved) {
+                completedLessons = JSON.parse(saved);
             }
+        } catch(e) {
+            console.error("Erro ao carregar lições concluídas:", e);
         }
-
-        // Botões de preview
-        const desktopBtn = document.getElementById('previewDesktopBtn');
-        const laptopBtn = document.getElementById('previewLaptopBtn');
-        const tabletBtn = document.getElementById('previewTabletBtn');
-        const phoneHorBtn = document.getElementById('previewPhoneHorizontalBtn');
-        const phoneBtn = document.getElementById('previewPhoneBtn');
-        const closeBtn = document.getElementById('closePreviewBtn');
-
-        function attachHandler(btn) {
-            if (!btn) return;
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                setLivePreviewFrameSize(this);
-                setActiveResponsiveButton(this);
+    }
+    
+    function saveCompletedLessons() {
+        try {
+            localStorage.setItem(COMPLETED_KEY, JSON.stringify(completedLessons));
+        } catch(e) {
+            console.error("Erro ao salvar lições concluídas:", e);
+        }
+    }
+    
+    function isLessonCompleted(lessonId) {
+        return !!completedLessons[lessonId];
+    }
+    
+    function toggleLessonCompleted(lessonId) {
+        if (completedLessons[lessonId]) {
+            delete completedLessons[lessonId];
+        } else {
+            completedLessons[lessonId] = new Date().toISOString();
+        }
+        saveCompletedLessons();
+        return !!completedLessons[lessonId];
+    }
+    
+    // ========================================
+    // FIREBASE DATA LOADING
+    // ========================================
+    async function loadFirebaseData() {
+        try {
+            const [lessonsSnapshot, settingsSnapshot] = await Promise.all([
+                database.ref('ebd/lessons').once('value'),
+                database.ref('ebd/settings').once('value')
+            ]);
+            
+            const lessonsData = lessonsSnapshot.val() || {};
+            adultLessons = lessonsData.adult || [];
+            youthLessons = lessonsData.youth || [];
+            settings = settingsSnapshot.val() || {};
+            
+            // Apply settings
+            applySettings();
+            
+            // Update stats
+            const totalLessons = adultLessons.length + youthLessons.length;
+            document.getElementById('statLessons').textContent = totalLessons;
+            
+            // Initial render
+            renderLessons('adult', activeAdultTrim);
+            renderLessons('youth', activeYouthTrim);
+            
+        } catch(error) {
+            console.error("Erro ao carregar dados:", error);
+            showToast("Erro ao carregar dados. Tentando novamente...", "error");
+            
+            // Fallback data
+            adultLessons = [
+                { numero: 1, titulo: "A Soberania de Deus", data: "05/01/2026", trimestre: 1, conteudo: "Estudo sobre a soberania divina." },
+                { numero: 2, titulo: "A Criação", data: "12/01/2026", trimestre: 1, conteudo: "O propósito de Deus na criação." },
+                { numero: 3, titulo: "O Pecado e a Queda", data: "19/01/2026", trimestre: 1, conteudo: "As consequências do pecado." }
+            ];
+            youthLessons = [
+                { numero: 1, titulo: "Quem sou eu em Cristo?", data: "05/01/2026", trimestre: 1, conteudo: "Identidade em Cristo." },
+                { numero: 2, titulo: "Vivendo como Luz", data: "12/01/2026", trimestre: 1, conteudo: "Impactando o mundo." }
+            ];
+            renderLessons('adult', activeAdultTrim);
+            renderLessons('youth', activeYouthTrim);
+        }
+    }
+    
+    function applySettings() {
+        if (settings.hero) {
+            if (settings.hero.title) document.getElementById('heroTitle').textContent = settings.hero.title;
+            if (settings.hero.subtitle) document.getElementById('heroSubtitle').textContent = settings.hero.subtitle;
+        }
+        
+        if (settings.social) {
+            const social = settings.social;
+            if (social.instagram) document.getElementById('socialInstagram').href = social.instagram;
+            if (social.facebook) document.getElementById('socialFacebook').href = social.facebook;
+            if (social.youtube) document.getElementById('socialYoutube').href = social.youtube;
+        }
+        
+        if (settings.quizzes) {
+            if (settings.quizzes.adult) document.getElementById('quizLinkAdult').href = settings.quizzes.adult;
+            if (settings.quizzes.youth) document.getElementById('quizLinkYouth').href = settings.quizzes.youth;
+        }
+    }
+    
+    // ========================================
+    // RENDER LESSONS
+    // ========================================
+    function getLessonAvailability(lesson) {
+        if (!lesson.data) return true;
+        const lessonDate = new Date(lesson.data.split('/').reverse().join('-'));
+        const today = new Date();
+        return today >= lessonDate;
+    }
+    
+    function renderLessons(type, trimestre) {
+        const container = document.getElementById(`${type}LessonsContainer`);
+        const lessons = type === 'adult' ? adultLessons : youthLessons;
+        const filtered = lessons.filter(l => l.trimestre === trimestre);
+        const sorted = filtered.sort((a,b) => a.numero - b.numero);
+        
+        if (sorted.length === 0) {
+            container.innerHTML = `
+                <div class="card">
+                    <div class="card-body" style="text-align: center; padding: 48px;">
+                        <i class="fas fa-book" style="font-size: 2rem; color: var(--text-secondary);"></i>
+                        <p style="margin-top: 16px;">Nenhuma lição disponível para este trimestre</p>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+        
+        container.innerHTML = sorted.map(lesson => {
+            const available = getLessonAvailability(lesson);
+            const completed = isLessonCompleted(`${type}_${lesson.numero}_${lesson.trimestre}`);
+            const descPreview = lesson.conteudo ? lesson.conteudo.substring(0, 120) + "..." : "Conteúdo em desenvolvimento";
+            
+            return `
+                <div class="card" data-lesson='${JSON.stringify(lesson)}' data-type="${type}">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3>Lição ${String(lesson.numero).padStart(2, '0')}</h3>
+                        <p>${lesson.titulo || 'Título em breve'}</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-meta">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>${lesson.data || 'Data a definir'}</span>
+                            <span class="badge ${available ? 'badge-available' : 'badge-upcoming'}">
+                                ${available ? 'Disponível' : 'Em breve'}
+                            </span>
+                            ${completed ? '<span class="badge badge-completed"><i class="fas fa-check-circle"></i> Concluída</span>' : ''}
+                        </div>
+                        <div class="card-description">
+                            ${descPreview}
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary view-lesson-btn" ${!available ? 'disabled' : ''}>
+                                <i class="fas fa-book-open"></i> Ver lição
+                            </button>
+                            <button class="btn-icon complete-lesson-btn ${completed ? 'completed' : ''}" title="${completed ? 'Desmarcar concluída' : 'Marcar como concluída'}">
+                                <i class="fas ${completed ? 'fa-check-circle' : 'fa-circle-check'}"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        // Attach event listeners
+        attachCardEvents(type);
+    }
+    
+    function attachCardEvents(type) {
+        // View buttons
+        document.querySelectorAll(`#${type}LessonsContainer .view-lesson-btn`).forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.card');
+                const lesson = JSON.parse(card.dataset.lesson);
+                const lessonType = card.dataset.type;
+                openLesson(lesson, lessonType);
             });
-        }
-
-        attachHandler(desktopBtn);
-        attachHandler(laptopBtn);
-        attachHandler(tabletBtn);
-        attachHandler(phoneHorBtn);
-        attachHandler(phoneBtn);
-
-        // Ativar desktop por padrão
-        if (desktopBtn) {
-            setTimeout(function() {
-                desktopBtn.click();
-            }, 100);
-        }
-
-        // Fechar preview - volta para a página anterior
-        if (closeBtn) {
-            closeBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                if (confirm('Deseja sair da visualização?')) {
-                    window.history.back();
-                }
-            });
-        }
-
-        // Ajustar iframe quando a janela for redimensionada
-        let resizeTimeout;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(function() {
-                const activeBtn = document.querySelector('.page-preview-header > a.active');
-                if (activeBtn) {
-                    setLivePreviewFrameSize(activeBtn);
-                }
-            }, 150);
         });
-    })();
+        
+        // Complete buttons
+        document.querySelectorAll(`#${type}LessonsContainer .complete-lesson-btn`).forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.card');
+                const lesson = JSON.parse(card.dataset.lesson);
+                const lessonType = card.dataset.type;
+                const lessonId = `${lessonType}_${lesson.numero}_${lesson.trimestre}`;
+                const completed = toggleLessonCompleted(lessonId);
+                
+                if (completed) {
+                    btn.classList.add('completed');
+                    btn.querySelector('i').className = 'fas fa-check-circle';
+                    showToast(`✅ Lição ${lesson.numero} concluída!`, "success");
+                } else {
+                    btn.classList.remove('completed');
+                    btn.querySelector('i').className = 'fas fa-circle-check';
+                    showToast(`📖 Lição ${lesson.numero} desmarcada`, "info");
+                }
+                
+                renderLessons(type, activeAdultTrim);
+            });
+        });
+        
+        // Card click
+        document.querySelectorAll(`#${type}LessonsContainer .card`).forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('.view-lesson-btn') || e.target.closest('.complete-lesson-btn')) return;
+                const viewBtn = card.querySelector('.view-lesson-btn');
+                if (viewBtn && !viewBtn.disabled) viewBtn.click();
+            });
+        });
+    }
+    
+    // ========================================
+    // OPEN LESSON
+    // ========================================
+    function openLesson(lesson, type) {
+        if (!getLessonAvailability(lesson)) {
+            showToast("Esta lição ainda não está disponível", "warning");
+            return;
+        }
+        
+        sessionStorage.setItem('currentLesson', JSON.stringify(lesson));
+        sessionStorage.setItem('currentLessonType', type);
+        window.location.href = 'licao.html';
+    }
+    
+    // ========================================
+    // TAB HANDLING
+    // ========================================
+    function initTabs() {
+        // Adult tabs
+        document.querySelectorAll('#adultTabs .tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('#adultTabs .tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                activeAdultTrim = parseInt(tab.dataset.trim);
+                renderLessons('adult', activeAdultTrim);
+            });
+        });
+        
+        // Youth tabs
+        document.querySelectorAll('#youthTabs .tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('#youthTabs .tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                activeYouthTrim = parseInt(tab.dataset.trim);
+                renderLessons('youth', activeYouthTrim);
+            });
+        });
+        
+        // Set initial active tab based on current quarter
+        const currentMonth = new Date().getMonth();
+        let currentQuarter = 1;
+        if (currentMonth >= 3 && currentMonth <= 5) currentQuarter = 2;
+        else if (currentMonth >= 6 && currentMonth <= 8) currentQuarter = 3;
+        else if (currentMonth >= 9 && currentMonth <= 11) currentQuarter = 4;
+        
+        const adultActiveTab = document.querySelector(`#adultTabs .tab[data-trim="${currentQuarter}"]`);
+        if (adultActiveTab) adultActiveTab.click();
+        
+        const youthActiveTab = document.querySelector(`#youthTabs .tab[data-trim="${currentQuarter}"]`);
+        if (youthActiveTab) youthActiveTab.click();
+    }
+    
+    // ========================================
+    // ADMIN FUNCTIONS
+    // ========================================
+    const ADMIN_EMAIL = "admin@ebdfiel.com.br";
+    
+    function openModal() {
+        document.getElementById('loginModal').classList.add('active');
+    }
+    
+    function closeModal() {
+        document.getElementById('loginModal').classList.remove('active');
+        document.getElementById('loginStatus').textContent = '';
+    }
+    
+    async function loginAdmin() {
+        const email = document.getElementById('adminEmail').value;
+        const password = document.getElementById('adminPassword').value;
+        const statusEl = document.getElementById('loginStatus');
+        
+        if (!email || !password) {
+            statusEl.textContent = "Preencha email e senha";
+            return;
+        }
+        
+        try {
+            const result = await auth.signInWithEmailAndPassword(email, password);
+            if (result.user.email === ADMIN_EMAIL) {
+                isAdmin = true;
+                closeModal();
+                showToast("Modo admin ativado", "success");
+                document.getElementById('adminBadge').style.background = "var(--primary)";
+                document.getElementById('adminBadge').style.color = "white";
+            } else {
+                statusEl.textContent = "Acesso negado";
+                await auth.signOut();
+            }
+        } catch(error) {
+            statusEl.textContent = "Email ou senha inválidos";
+            console.error(error);
+        }
+    }
+    
+    // ========================================
+    // UI HELPER FUNCTIONS
+    // ========================================
+    function showToast(message, type = "success") {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const icon = toast.querySelector('i');
+        
+        toastMessage.textContent = message;
+        
+        if (type === "success") {
+            icon.className = "fas fa-check-circle";
+            icon.style.color = "var(--success)";
+        } else if (type === "error") {
+            icon.className = "fas fa-exclamation-circle";
+            icon.style.color = "var(--danger)";
+        } else {
+            icon.className = "fas fa-info-circle";
+            icon.style.color = "var(--primary)";
+        }
+        
+        toast.classList.add('show');
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+    
+    // Theme toggle
+    function initTheme() {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            document.querySelector('#themeToggle i').className = 'fas fa-sun';
+        }
+    }
+    
+    function toggleTheme() {
+        const current = document.documentElement.getAttribute('data-theme');
+        const newTheme = current === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        
+        const icon = document.querySelector('#themeToggle i');
+        icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+    }
+    
+    // Mobile menu
+    function initMobileMenu() {
+        const btn = document.getElementById('mobileMenuBtn');
+        const nav = document.getElementById('mainNav');
+        
+        btn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            const icon = btn.querySelector('i');
+            icon.className = nav.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+        });
+        
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('active');
+                btn.querySelector('i').className = 'fas fa-bars';
+            });
+        });
+    }
+    
+    // Smooth scroll
+    function initSmoothScroll() {
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    }
+    
+    // Logo click
+    document.getElementById('logo').addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    
+    // Admin badge
+    document.getElementById('adminBadge').addEventListener('click', () => {
+        if (isAdmin) {
+            showToast("Modo admin já ativo", "info");
+        } else {
+            openModal();
+        }
+    });
+    
+    // Theme toggle
+    document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+    
+    // ========================================
+    // INITIALIZATION
+    // ========================================
+    async function init() {
+        loadCompletedLessons();
+        initTheme();
+        initMobileMenu();
+        initSmoothScroll();
+        
+        await loadFirebaseData();
+        initTabs();
+        
+        // Hide splash screen
+        setTimeout(() => {
+            const splash = document.getElementById('splash');
+            splash.classList.add('fade-out');
+            setTimeout(() => splash.remove(), 500);
+        }, 1500);
+    }
+    
+    init();
 </script>
-
 </body>
 </html>
